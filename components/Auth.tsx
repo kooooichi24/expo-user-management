@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { Alert, StyleSheet, View, AppState } from 'react-native'
+import { Alert, StyleSheet, View, AppState, TextInput, TouchableOpacity, Text } from 'react-native'
 import { supabase } from '../lib/supabase'
-import { Button, Input } from '@rneui/themed'
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
@@ -49,19 +48,18 @@ export default function Auth() {
   return (
     <View style={styles.container}>
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Input
-          label="Email"
-          leftIcon={{ type: 'font-awesome', name: 'envelope' }}
+        <Text>Email</Text>
+        <TextInput
           onChangeText={(text) => setEmail(text)}
           value={email}
           placeholder="email@address.com"
           autoCapitalize={'none'}
+          keyboardType="email-address"
         />
       </View>
       <View style={styles.verticallySpaced}>
-        <Input
-          label="Password"
-          leftIcon={{ type: 'font-awesome', name: 'lock' }}
+        <Text>Password</Text>
+        <TextInput
           onChangeText={(text) => setPassword(text)}
           value={password}
           secureTextEntry={true}
@@ -70,10 +68,14 @@ export default function Auth() {
         />
       </View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button title="Sign in" disabled={loading} onPress={() => signInWithEmail()} />
+        <TouchableOpacity disabled={loading} onPress={() => signInWithEmail()}>
+          <Text>Sign in</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.verticallySpaced}>
-        <Button title="Sign up" disabled={loading} onPress={() => signUpWithEmail()} />
+        <TouchableOpacity disabled={loading} onPress={() => signUpWithEmail()}>
+          <Text>Sign up</Text>
+        </TouchableOpacity>
       </View>
     </View>
   )

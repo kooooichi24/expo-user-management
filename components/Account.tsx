@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
-import { StyleSheet, View, Alert } from 'react-native'
-import { Button, Input } from '@rneui/themed'
+import { StyleSheet, View, Alert, TextInput, TouchableOpacity, Text } from 'react-native'
 import { Session } from '@supabase/supabase-js'
 import Avatar from './Avatar'
 
@@ -91,25 +90,42 @@ export default function Account({ session }: { session: Session }) {
         />
       </View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Input label="Email" value={session?.user?.email} disabled />
+        <Text>Email</Text>
+        <TextInput 
+          value={session?.user?.email}
+          editable={false}
+        />
       </View>
       <View style={styles.verticallySpaced}>
-        <Input label="Username" value={username || ''} onChangeText={(text) => setUsername(text)} />
+      <Text>Username</Text>
+        <TextInput 
+          value={username || ''}
+          onChangeText={(text) => setUsername(text)}
+        />
       </View>
       <View style={styles.verticallySpaced}>
-        <Input label="Website" value={website || ''} onChangeText={(text) => setWebsite(text)} />
-      </View>
-
-      <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button
-          title={loading ? 'Loading ...' : 'Update'}
-          onPress={() => updateProfile({ username, website, avatar_url: avatarUrl })}
-          disabled={loading}
+        <Text>Website</Text>
+        <TextInput 
+          value={website || ''} 
+          onChangeText={(text) => setWebsite(text)} 
         />
       </View>
 
+      <View style={[styles.verticallySpaced, styles.mt20]}>
+        <TouchableOpacity
+          onPress={() => updateProfile({ username, website, avatar_url: avatarUrl })}
+          disabled={loading}
+        >
+          <Text>
+            {loading ? 'Loading ...' : 'Update'}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.verticallySpaced}>
-        <Button title="Sign Out" onPress={() => supabase.auth.signOut()} />
+        <TouchableOpacity onPress={() => supabase.auth.signOut()}>
+          <Text>Sign Out</Text>
+        </TouchableOpacity>
       </View>
     </View>
   )
